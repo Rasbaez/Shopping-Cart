@@ -7,7 +7,7 @@ Aqui você vai encontrar os detalhes de como estruturar o desenvolvimento do seu
 
 Ao iniciar este projeto, você concorda com as diretrizes do [Código de Conduta e do Manual da Pessoa Estudante da Trybe](https://app.betrybe.com/manual-estudante/codigo-de-etica-e-conduta).
 
-# Entregáveis
+# Entregáveis.
 
 <details>
   <summary><strong>🤷🏽‍♀️ Como entregar</strong></summary><br />
