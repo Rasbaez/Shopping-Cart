@@ -3,7 +3,7 @@ const { fetchProducts } = require('../helpers/fetchProducts');
 const item = require('../mocks/item');
 const computadorSearch = require('../mocks/search');
 
-describe('1 - Teste a função fetchProducts', () => {
+describe('Testing fetchProducts function', () => {
   // implemente seus testes aqui
   it('fetchProducts should be a function', () => {
     expect(typeof(fetchProducts)).toBe('function');
@@ -19,11 +19,11 @@ describe('1 - Teste a função fetchProducts', () => {
  })
 
 
- it('testing if function fetchProducts must be return an object Equal "computadorSearch"', async () => {
+ it('Testing if function fetchProducts must be return an object Equal "computadorSearch"', async () => {
   expect( await fetchProducts('computador')).toEqual(computadorSearch);
 })
 
-it('When fetchProducts called without params, need return an error msg "You must provide an url"', async () => {
+it('When fetchProducts called without params, need return a error msg "You must provide an url"', async () => {
   expect.assertions(1);
 
   try {
