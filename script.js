@@ -14,6 +14,15 @@ const removeItemCart = () => {
 
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
+const resetCart = () => {
+ const btnClean = document.querySelector('.empty-cart');
+ btnClean.addEventListener('click', () => {
+  ol.innerHTML = '';
+ });
+};
+
+//  👀 deleteCartItems deleta todos os itens selecionados no carrinho!
+
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
@@ -93,6 +102,7 @@ const createProductsList = async () => {
 };
 
 // createProductsList é responsável por renderizar os produtos na téla solicitando os dados da API!!
+
 window.onload = async () => {
   await fetchProducts('computador');
   await createProductsList();
@@ -100,4 +110,5 @@ window.onload = async () => {
   ol.innerHTML = getSavedCartItems();
   // 👀não entendi por que devemos chamar com ol.innerHTML, uma amiga me disse e funcionou.
   removeItemCart();  
+  resetCart();
 };
