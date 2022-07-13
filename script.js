@@ -48,9 +48,9 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 const addToCart = async (e) => {
   const selectProduct = await e.target.parentNode.firstElementChild.innerText;
    // foi difícil pensar que por conta da depêndencia do produto selecionado, precisamos do await, mas funcionou//
- const product = await fetchItem(selectProduct);
- console.log(product);
- const { id, title, price } = product;
+  const product = await fetchItem(selectProduct);
+  // console.log(product);
+  const { id, title, price } = product;
 
  const addtoCart = createCartItemElement({ sku: id, name: title, salePrice: price });
  cart.appendChild(addtoCart);
