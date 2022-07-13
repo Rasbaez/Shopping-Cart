@@ -11,8 +11,8 @@ describe('3 - Testing saveCartItems function ', () => {
     });
 
     it('When function "saveCartItems" is called with arg "<ol><li>Item</li></ol>", the methood "localStorage.setItem()" need called with args "("cartItems", "param")"',   () => {
-      saveCartItems();
-      expect(localStorage.setItem).toHaveBeenLastCalledWith('cartItems');
+      saveCartItems('element');
+      expect(localStorage.setItem).toHaveBeenLastCalledWith('cartItems', 'element');
       }); 
 
 
