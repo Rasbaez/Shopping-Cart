@@ -1,11 +1,17 @@
-// const items = document.querySelector('.items');
 const ol = document.querySelector('.cart__items');
-const btnCartRemove = document.querySelector('.empty-cart');
 
-const cartItemClickListener = async (event) => {
-  // aqui eu tentei descontruir o target {target}, passando como parâmetro, mas não sei por que não funcionou.
-  event.target.remove();
+const cartItemClickListener = async ({ target }) => {
+    target.remove();
+    saveCartItems(ol.innerHTML);
 };
+
+const removeItemCart = () => {
+  const cartItems = document.querySelectorAll('.cart__item');
+  cartItems.forEach((cartItem) => cartItem.addEventListener('click', cartItemClickListener));
+};
+
+// 💭 segundo as dicas do Rafa no Slack, a função removeItemCart é responsável por eliminar os items do carrinho após o recarregamento da página, pois quando éla é a recarregada se perde a função AddEventLisnner, então é nececário criar uma função a parte para remover aopós o recarregamento!
+
 const getSkuFromProductItem = (item) => item.querySelector('span.item__sku').innerText;
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
@@ -26,13 +32,16 @@ const cartItem = async (elemId) => {
   };
   const li = createCartItemElement(itemObj);
   ol.appendChild(li);
- console.log(ol);
+  saveCartItems(ol.innerHTML);
 };
+
+// 👀cartItem é responsável por criar o elemento para ser adicionado ao carrinho
 
 const getItemId = ({ target }) => {
   const itemId = target.parentElement.firstChild.innerText;
   cartItem(itemId);
 };
+// 👀getItemId responsável por pegar o ID do item quando clicado
 
 const selectedProduct = () => {
   const btnCart = document.querySelectorAll('.item__add');
@@ -40,6 +49,8 @@ const selectedProduct = () => {
     btn.addEventListener('click', getItemId);
   }); 
 };
+
+// 👀selectedProduct é responsável por selecionarmos o item desejado ao carrinho percorremos todos os itens com forEach e adicionamos o listnner ao botão
 
 const createProductImageElement = (imageSource) => {
   const img = document.createElement('img');
@@ -81,8 +92,12 @@ const createProductsList = async () => {
   });
 };
 
+// createProductsList é responsável por renderizar os produtos na téla solicitando os dados da API!!
 window.onload = async () => {
   await fetchProducts('computador');
   await createProductsList();
   selectedProduct();
+  ol.innerHTML = getSavedCartItems();
+  // 👀não entendi por que devemos chamar com ol.innerHTML, uma amiga me disse e funcionou.
+  removeItemCart();  
 };
