@@ -126,6 +126,5 @@ window.onload = async () => {
   await createProductsList();
   selectedProduct();
   removeItemCart();  
-  resetCart();
-  
+  resetCart(); 
 };
