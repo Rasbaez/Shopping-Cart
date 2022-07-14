@@ -1,13 +1,29 @@
 const ol = document.querySelector('.cart__items');
 
+const sumPriceCart = () => {
+  const cartItems = document.querySelectorAll('.cart__item');
+  const arrayOfItemsOnCart = cartItems;
+
+  let total = 0;
+  const showTotal = document.querySelector('.total');
+ 
+  arrayOfItemsOnCart.forEach((price) => {
+    total += +price.innerHTML.split('$')[1];
+  });
+
+  showTotal.innerText = total;
+ };
+
 const cartItemClickListener = async ({ target }) => {
     target.remove();
     saveCartItems(ol.innerHTML);
+    sumPriceCart();
 };
 
 const removeItemCart = () => {
   const cartItems = document.querySelectorAll('.cart__item');
   cartItems.forEach((cartItem) => cartItem.addEventListener('click', cartItemClickListener));
+  ol.innerHTML = getSavedCartItems();
 };
 
 // 💭 segundo as dicas do Rafa no Slack, a função removeItemCart é responsável por eliminar os items do carrinho após o recarregamento da página, pois quando éla é a recarregada se perde a função AddEventLisnner, então é nececário criar uma função a parte para remover aopós o recarregamento!
@@ -34,14 +50,15 @@ const createCartItemElement = ({ sku, name, salePrice }) => {
 const cartItem = async (elemId) => {
   const selectProduct = await fetchItem(elemId);
   const { id, title, price } = selectProduct;
-  const itemObj = {
+  const item = {
     sku: id,
     name: title,
     salePrice: price,
   };
-  const li = createCartItemElement(itemObj);
+  const li = createCartItemElement(item);
   ol.appendChild(li);
   saveCartItems(ol.innerHTML);
+  sumPriceCart();
 };
 
 // 👀cartItem é responsável por criar o elemento para ser adicionado ao carrinho
@@ -67,6 +84,7 @@ const createProductImageElement = (imageSource) => {
   img.src = imageSource;
   return img;
 };
+
 const createCustomElement = (element, className, innerText) => {
   const e = document.createElement(element);
   e.className = className;
@@ -107,8 +125,7 @@ window.onload = async () => {
   await fetchProducts('computador');
   await createProductsList();
   selectedProduct();
-  ol.innerHTML = getSavedCartItems();
-  // 👀não entendi por que devemos chamar com ol.innerHTML, uma amiga me disse e funcionou.
   removeItemCart();  
   resetCart();
+  
 };
