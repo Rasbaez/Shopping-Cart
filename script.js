@@ -57,7 +57,7 @@ const cartItem = async (elemId) => {
   const li = createCartItemElement(itemObj);
   ol.appendChild(li);
   saveCartItems(ol.innerHTML);
-  sumPriceCart()
+  sumPriceCart();
 };
 
 // 👀cartItem é responsável por criar o elemento para ser adicionado ao carrinho
@@ -127,5 +127,4 @@ window.onload = async () => {
   // 👀não entendi por que devemos chamar com ol.innerHTML, uma amiga me disse e funcionou.
   removeItemCart();  
   resetCart();
-  
 };
