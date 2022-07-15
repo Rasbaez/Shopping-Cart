@@ -10,8 +10,7 @@ const sumPriceCart = async () => {
   arrayOfItemsOnCart.forEach((price) => {
     total += +price.innerHTML.split('$')[1];
   });
-
-  showTotal.innerText = total;
+  showTotal.innerHTML = total;
  };
 const cartItemClickListener = async ({ target }) => {
     target.remove();
@@ -119,12 +118,17 @@ const createProductsList = async () => {
 
 // createProductsList é responsável por renderizar os produtos na téla solicitando os dados da API!!
 
+const removeTagAfterChargeItems = () => {
+  document.querySelector('.loading').remove();
+};
+// removeTagAfterChargeItems é responsavel por remover o texto de Carregamento após o carregamento dos itens!! 
+
 window.onload = async () => {
   await fetchProducts('computador');
   await createProductsList();
   selectedProduct();
   ol.innerHTML = getSavedCartItems();
-  // 👀não entendi por que devemos chamar com ol.innerHTML, uma amiga me disse e funcionou.
   removeItemCart();  
   resetCart();
+  removeTagAfterChargeItems();
 };
