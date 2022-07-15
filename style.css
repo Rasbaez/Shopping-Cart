@@ -146,4 +146,32 @@ body {
   margin: 0 auto;
   border: 2px solid rgb(5, 52, 219);
   background-color: rgb(249, 249, 246);
+  margin-top: 20px;
+}
+
+.cart__item{
+  border: 1px solid cadetblue;
+  padding: 19px;
+  display: flex;
+  margin-top: 10px;
+  background-color: silver;
+  border-radius: 12px;
+  margin-left: 60px;
+  margin-right: 75px;
+  cursor: pointer;
+}
+#Text{
+  color: red;
+}
+
+.item__image{
+  border-radius: 60px;
+}
+.total-price{ 
+  margin: 0px 182px;
+    padding: 7px;
+    font-size: unset;
+    background-color: gold;
+    border-radius: 20px;
+    margin-top: 10px;
 }
