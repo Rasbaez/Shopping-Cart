@@ -1,20 +1,45 @@
 const ol = document.querySelector('.cart__items');
 
-const sumPriceCart = async () => {
-  const cartItems = document.querySelectorAll('.cart__item');
-  const arrayOfItemsOnCart = cartItems;
+const createProductImageElement = (imageSource) => {
+  const img = document.createElement('img');
+  img.className = 'item__image';
+  img.src = imageSource;
+  return img;
+};
 
-  let total = 0;
+const createCustomElement = (element, className, innerText) => {
+  const e = document.createElement(element);
+  e.className = className;
+  e.innerText = innerText;
+  return e;
+};
+
+const createProductItemElement = ({ sku, name, image, price }) => {
+  const section = document.createElement('section');
+  section.className = 'item';
+
+  section.appendChild(createCustomElement('span', 'item__sku', sku));
+  section.appendChild(createCustomElement('span', 'item__title', name));
+  section.appendChild(createProductImageElement(image));
+  section.appendChild(createCustomElement('span', 'item__title', ` R$: ${price}`));
+  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+
+  return section;
+};
+
+const sumPriceCart = () => {
+  const cartItems = document.querySelectorAll('.cart__item');
   const showTotal = document.querySelector('.total-price');
- 
-  arrayOfItemsOnCart.forEach((price) => {
-    total += +price.innerHTML.split('$')[1];
+  let total = 0;
+  cartItems.forEach((price) => {
+    total += +price.innerText.split('$')[1];
+    //  eu não entendo o por que o split('$') deve ter o cifrão um colega de turma fez e funcionou, mas não compreendi totalmente 
   });
-  showTotal.innerHTML = total;
+  showTotal.innerText = total;
  };
+ 
 const cartItemClickListener = async ({ target }) => {
-    target.remove();
-    saveCartItems(ol.innerHTML);
+ target.remove();
     sumPriceCart();
 };
 
@@ -34,38 +59,36 @@ const resetCart = () => {
  });
 };
 
-//  👀 deleteCartItems deleta todos os itens selecionados no carrinho!
+// 👀 deleteCartItems deleta todos os itens selecionados no carrinho!
 
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
-  saveCartItems(ol.innerHTML);
   return li;
 };
 
 const cartItem = async (elemId) => {
   const selectProduct = await fetchItem(elemId);
-  const { id, title, price } = selectProduct;
-  const itemObj = {
-    sku: id,
-    name: title,
-    salePrice: price,
-  };
-  const li = createCartItemElement(itemObj);
+  console.log(selectProduct);
+  const { id, title, price, thumbnail } = selectProduct;
+  const li = createCartItemElement({ sku: id, name: title, salePrice: price, thumbail: thumbnail });
   ol.appendChild(li);
-  saveCartItems(ol.innerHTML);
+  li.appendChild(createProductImageElement(thumbnail));
+  
   sumPriceCart();
+  
+  saveCartItems(ol.innerHTML);
 };
 
-// 👀cartItem é responsável por criar o elemento para ser adicionado ao carrinho
+// 👀 cartItem é responsável por criar o elemento para ser adicionado ao carrinho
 
 const getItemId = ({ target }) => {
   const itemId = target.parentElement.firstChild.innerText;
   cartItem(itemId);
 };
-// 👀getItemId responsável por pegar o ID do item quando clicado
+// 👀 getItemId responsável por pegar o ID do item quando clicado
 
 const selectedProduct = () => {
   const btnCart = document.querySelectorAll('.item__add');
@@ -74,35 +97,11 @@ const selectedProduct = () => {
   }); 
 };
 
-// 👀selectedProduct é responsável por selecionarmos o item desejado ao carrinho percorremos todos os itens com forEach e adicionamos o listnner ao botão
-
-const createProductImageElement = (imageSource) => {
-  const img = document.createElement('img');
-  img.className = 'item__image';
-  img.src = imageSource;
-  return img;
-};
-const createCustomElement = (element, className, innerText) => {
-  const e = document.createElement(element);
-  e.className = className;
-  e.innerText = innerText;
-  return e;
-};
-
-const createProductItemElement = ({ sku, name, image }) => {
-  const section = document.createElement('section');
-  section.className = 'item';
-
-  section.appendChild(createCustomElement('span', 'item__sku', sku));
-  section.appendChild(createCustomElement('span', 'item__title', name));
-  section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
-
-  return section;
-};
+// 👀 selectedProduct é responsável por selecionarmos o item desejado ao carrinho percorremos todos os itens com forEach e adicionamos o listnner ao botão
 
 const createProductsList = async () => {
   const products = await fetchProducts('computador');
+  // console.log(products);
   const section = document.querySelector('.items');
   const { results } = products;
   results.forEach((elem) => {
@@ -116,12 +115,12 @@ const createProductsList = async () => {
   });
 };
 
-// createProductsList é responsável por renderizar os produtos na téla solicitando os dados da API!!
+// 👀 createProductsList é responsável por renderizar os produtos na téla solicitando os dados da API!!
 
 const removeTagAfterChargeItems = () => {
   document.querySelector('.loading').remove();
 };
-// removeTagAfterChargeItems é responsavel por remover o texto de Carregamento após o carregamento dos itens!! 
+// 👀 removeTagAfterChargeItems é responsavel por remover o texto de Carregamento após o carregamento dos itens!! 
 
 window.onload = async () => {
   await fetchProducts('computador');
