@@ -154,12 +154,15 @@ body {
   padding: 19px;
   display: flex;
   margin-top: 10px;
-  background-color: silver;
+  background-color: aliceblue;
   border-radius: 12px;
   margin-left: 60px;
-  margin-right: 75px;
+  margin-right: 150px;
   cursor: pointer;
+  font-weight: bolder;
+  line-height: 40px;
 }
+
 #Text{
   color: red;
 }
@@ -174,4 +177,5 @@ body {
     background-color: gold;
     border-radius: 20px;
     margin-top: 10px;
+    font-weight: bold;
 }

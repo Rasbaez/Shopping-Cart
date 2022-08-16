@@ -64,14 +64,13 @@ const resetCart = () => {
 const createCartItemElement = ({ sku, name, salePrice }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = ` ${name} | PRICE: $${salePrice}`;
+  li.innerText = ` ${name} | only: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
   return li;
 };
 
 const cartItem = async (elemId) => {
   const selectProduct = await fetchItem(elemId);
-  console.log(selectProduct);
   const { id, title, price, thumbnail } = selectProduct;
   const li = createCartItemElement({ sku: id, name: title, salePrice: price, thumbail: thumbnail });
   ol.appendChild(li);
